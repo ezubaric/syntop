@@ -1,0 +1,22 @@
+
+message SyntopParameters {
+  required bool finite = 1 [default = false];
+  required bool ignore_trans = 2 [default = false];
+  required bool ignore_docs = 3 [default = false];
+  required bool shortcut_gsl = 4 [default = false];
+  required string model_name = 5;
+  required int32 num_topics = 6 [default = 64];
+  required int32 max_doc_iterations = 9 [default = 5];
+
+  // Prior for document distribution over topics
+  required double alpha_doc = 10[default = 1.0];
+  // Prior for transition from one topic to another
+  required double alpha_trans = 11[default = 1.0];
+  // Paramater for top-level GEM distribution
+  required double alpha_top = 12[default = 1.0];
+  // How broad the distribution is for vocabulary terms
+  required double vocab_sigma = 13[default = 0.1];
+
+  required int32 vocab_size = 14;
+  required int32 num_docs = 15;
+}
