@@ -86,12 +86,12 @@ double lgamma(double x) {
     x2 = 1.0/(x0*x0);
     xp = 2.0*M_PI;
     gl0 = a[9];
-    for (k = 8; k >= 0;k--) {
+    for (k = 8; k >= 0; k--) {
         gl0 = gl0*x2 + a[k];
     }
     gl = gl0/x0+0.5*log(xp)+(x0-0.5)*log(x0)-x0;
     if (x <= 7.0) {
-        for (k = 1;k <= n; k++) {
+        for (k = 1; k <= n; k++) {
             gl -= log(x0-1.0);
             x0 -= 1.0;
         }

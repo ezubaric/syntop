@@ -55,6 +55,7 @@ class Document {
   void ClearPhi();
   int index_;
   shared_ptr<gsl_vector> omega_;
+
  private:
   Document(const Document& copy);
   scoped_array< Sentence<LensNode> > sentences_;
