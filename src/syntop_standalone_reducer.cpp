@@ -2,7 +2,8 @@
  * Copyright 2009 Jordan Boyd-Graber
  */
 
-#include "syntop_reducer.h"
+// #include "syntop_reducer.h"
+#include "syntop_standalone_reducer.h"
 #include "gradient.h"
 
 using std::cerr;
