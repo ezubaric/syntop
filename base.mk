@@ -21,7 +21,7 @@ endif
 
 PYTHON_COMMAND := PYTHONPATH="$$PYTHONPATH:../../lib/python_lib/" $(PYTHON_COMMAND)
 
-# Options for cpplint.py
+# Options for cpplint
 LINT_OPTIONS = --filter=-readability/casting,-readability/streams,-runtime/threadsafe_fn,-build/header_guard,-build/include
 
 # Look for an environment variable telling us to do code optimizations
@@ -67,8 +67,8 @@ SAMPLER_CPP=$(wildcard ../../lib/lda/*.cpp)
 SAMPLER_DEP=$(wildcard ../../lib/lda/*.*)
 SAMPLER_OBJ=$(notdir $(SAMPLER_CPP:.cpp=.o))
 
-UTIL_DEP = $(wildcard ../../lib/util/*.* ../../lib/prob/*.*)
-UTIL_CPP = $(wildcard ../../lib/util/*.cpp ../../lib/prob/*.cpp)
+UTIL_DEP = $(wildcard ./topicmod/lib/util/*.* ./topicmod/lib/prob/*.*)
+UTIL_CPP = $(wildcard ./topicmod/lib/util/*.cpp ./topicmod/lib/prob/*.cpp)
 UTIL_OBJ=$(notdir $(UTIL_CPP:.cpp=.o))
 
 LDAWN_PATH=../ldawn
@@ -92,7 +92,7 @@ STANDALONE_WORDNET=wn/wordnet.wn
 $(LDAWN_OBJ): $(LDAWN_DEP) $(WORDNET_PROTO_OBJ) $(PROTO_OBJ)
 	@echo $(LDAWN_DEP) $(WORDNET_PROTO_OBJ) $(PROTO_OUT)
 	@echo $(LDAWN_OBJ)
-	cpplint.py $(LINT_OPTIONS) $(LDAWN_DEP)
+	cpplint $(LINT_OPTIONS) $(LDAWN_DEP)
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) -c $(LDAWN_CPP)
 
 # Create the protocol buffer that represents the english WN
@@ -128,15 +128,15 @@ $(WORDNET_PROTO_OUT) $(WORDNET_PROTO_OBJ): $(WORDNET_PROTO_DEP)
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) -c $(LDAWN_PATH)/src/wordnet_file.pb.cc
 
 $(CORPUS_OBJ): $(PROTO_OUT) $(CORPUS_CPP)
-	cpplint.py $(LINT_OPTIONS) $(CORPUS_CPP)
+	cpplint $(LINT_OPTIONS) $(CORPUS_CPP)
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) -c $(CORPUS_CPP)
 
 $(UTIL_OBJ): $(UTIL_DEP)
-	cpplint.py $(LINT_OPTIONS) $(UTIL_DEP)
+	cpplint $(LINT_OPTIONS) $(UTIL_DEP)
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) -c $(UTIL_CPP)
 
 $(SAMPLER_OBJ): $(SAMPLER_DEP) $(PROTO_OUT)
-	cpplint.py $(LINT_OPTIONS) $(SAMPLER_DEP)
+	cpplint $(LINT_OPTIONS) $(SAMPLER_DEP)
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) -c $(SAMPLER_CPP)
 
 OBJ_FILES= $(SAMPLER_OBJ)  $(UTIL_OBJ)  $(PROTO_OBJ) $(CORPUS_OBJ)
@@ -216,12 +216,12 @@ vocab/nsf.voc: # ../../data/nsf-protocol-out/nsfSmall.index
 	$(PYTHON_COMMAND) ../../lib/corpora/vocab.py --output=vocab/nsf.voc --min_freq=10 --corpus_parts="../../data/nsf-protocol-out/nsfSmall.index" --stem=True --vocab$(WORDNET_PROTO_OBJ)_limit=5000
 
 test_mlslda: ../../tests/test_mlslda.cpp  $(MLSLDA_DEP) $(WORDNET_PROTO_OBJ) $(LDAWN_OBJ) $(OBJ_FILES) $(LDAWN_OBJ) $(OBJ_FILES) $(LDAWN_OBJ) $(WORDNET_PROTO_OBJ) $(MLSLDA_CPP)
-	cpplint.py $(LINT_OPTIONS) ../../tests/test_mlslda.cpp
+	cpplint $(LINT_OPTIONS) ../../tests/test_mlslda.cpp
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) $(OBJ_FILES) $(LDAWN_OBJ) $(WORDNET_PROTO_OBJ) $(MLSLDA_CPP) ../../tests/test_mlslda.cpp -o test_mlslda
 	./test_mlslda
 
 test_ldawn: ../../tests/test_ldawn.cpp  $(WORDNET_PROTO_OBJ) $(LDAWN_OBJ) $(OBJ_FILES) $(LDAWN_OBJ) $(OBJ_FILES) $(LDAWN_OBJ) $(WORDNET_PROTO_OBJ) $(LDAWN_CPP)
-	cpplint.py $(LINT_OPTIONS) ../../tests/test_ldawn.cpp
+	cpplint $(LINT_OPTIONS) ../../tests/test_ldawn.cpp
 	$(GPP) $(CFLAGS) $(INCLUDEDIRS) $(LIBDIRS) $(OBJ_FILES) $(LDAWN_OBJ) $(WORDNET_PROTO_OBJ) $(MLSLDA_CPP) ../../tests/test_ldawn.cpp -o test_ldawn
 	./test_ldawn
 
