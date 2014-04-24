@@ -73,7 +73,10 @@ int main(int argc, char **argv) {
     (new SyntopStandaloneMapper(param_container));
 
   string line;
-  ifstream datafile((FLAGS_dataset + "/" + FLAGS_dataset + ".0.prs").c_str());
+  // ifstream datafile((FLAGS_dataset + "/" + FLAGS_dataset + ".0.prs").c_str());
+  ifstream datafile((FLAGS_directory + "/" + FLAGS_dataset + ".0.prs").c_str());
+  
+  cout << "datafile: "+FLAGS_directory + "/" + FLAGS_dataset + ".0.prs" << endl;
   
   StringMap buffer;
 
@@ -96,7 +99,7 @@ int main(int argc, char **argv) {
                      + FLAGS_suffix + "/current.beta").c_str());
       // yourfile.open((FLAGS_directory + "_params/tmp.beta").c_str());
       for (int i = 0; i < params_->num_topics(); i++) {
-	yourfile << gsl_vector_get(vars_->beta_.get(), i) << "\t";
+		yourfile << gsl_vector_get(vars_->beta_.get(), i) << "\t";
       }
       yourfile.close();
     }
